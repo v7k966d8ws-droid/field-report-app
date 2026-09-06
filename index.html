@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#244B35">
+<title>Field Report</title>
+
+<style>
+:root{
+  --green:#244B35;
+  --green2:#2f6145;
+  --pale:#F3F7F3;
+  --mid:#DDE8DF;
+  --line:#D7DDD8;
+  --text:#252A27;
+  --muted:#626A65;
+  --amber:#F4E8C8;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#eef2ee;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+.wrap{
+  max-width:980px;
+  margin:24px auto;
+  padding:0 14px;
+}
+
+.card{
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+header{
+  background:var(--green);
+  color:#fff;
+  padding:26px;
+}
+
+header h1{
+  margin:0 0 6px;
+  font-size:34px;
+}
+
+header p{
+  margin:0;
+  opacity:.9;
+  font-size:17px;
+}
+
+main{
+  padding:24px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  color:var(--muted);
+  margin:0 0 7px;
+}
+
+input,
+select,
+textarea,
+button{
+  font:inherit;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #cfd7d1;
+  border-radius:14px;
+  padding:13px 14px;
+  background:#fff;
+  font-size:17px;
+}
+
+textarea{
+  min-height:112px;
+  resize:vertical;
+}
+
+.blocks{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  border:1px solid #cfd7d1;
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+}
+
+.block-option{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--pale);
+}
+
+.block-option input{
+  width:auto;
+  margin:0;
+}
+
+.buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--green);
+  color:#fff;
+}
+
+.secondary{
+  background:var(--mid);
+  color:var(--green);
+}
+
+details{
+  margin-top:24px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+
+summary{
+  font-weight:800;
+  color:var(--green);
+  cursor:pointer;
+}
+
+.editor-row{
+  display:grid;
+  grid-template-columns:1fr 2fr auto;
+  gap:10px;
+  margin-top:12px;
+  align-items:end;
+}
+
+.danger{
+  background:#f6e5e5;
+  color:#8a2f2f;
+}
+
+.notice{
+  background:var(--amber);
+  border:1px solid #dfcc9d;
+  padding:12px 14px;
+  border-radius:12px;
+  margin-top:12px;
+  font-size:14px;
+}
+
+#reportView{
+  display:none;
+  background:#fff;
+  margin-top:22px;
+  border-radius:16px;
+  padding:22px;
+  border:1px solid var(--line);
+}
+
+.report-head{
+  background:var(--green);
+  color:#fff;
+  padding:20px;
+  border-radius:12px;
+}
+
+.report-head h2{
+  margin:0;
+  font-size:28px;
+}
+
+.report-sub{
+  margin-top:5px;
+  opacity:.9;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:14px;
+  border:1px solid var(--line);
+}
+
+.summary > div{
+  padding:12px;
+  text-align:center;
+  border-right:1px solid var(--line);
+}
+
+.summary > div:last-child{
+  border-right:0;
+}
+
+.summary strong{
+  display:block;
+  color:var(--green);
+  margin-top:4px;
+}
+
+.takeaway{
+  background:var(--amber);
+  padding:14px;
+  border-radius:10px;
+  margin-top:14px;
+  font-weight:700;
+  color:var(--green);
+}
+
+h3{
+  color:var(--green);
+  margin-bottom:6px;
+}
+
+@media(max-width:760px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .blocks{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  .summary > div{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .summary > div:last-child{
+    border-bottom:0;
+  }
+
+  .editor-row{
+    grid-template-columns:1fr;
+  }
+}
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  .wrap{
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+
+  .card{
+    box-shadow:none;
+  }
+
+  header,
+  main > :not(#reportView){
+    display:none !important;
+  }
+
+  #reportView{
+    display:block !important;
+    border:0;
+    margin:0;
+    padding:0;
+  }
+
+  .buttons{
+    display:none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<header>
+
+<h1>New Field Report</h1>
+
+<p>
+Choose the farm and blocks/outlets, enter your observations,
+then generate the report.
+</p>
+
+</header>
+
+<main>
+
+<div class="grid">
+
+<div>
+
+<label for="reportDate">
+Report date
+</label>
+
+<input id="reportDate" type="date">
+
+</div>
+
+
+<div>
+
+<label for="farm">
+Farm
+</label>
+
+<select id="farm">
+
+<option value="">
+Select a farm…
+</option>
+
+<option value="Strathdee">
+Strathdee
+</option>
+
+<option value="Rays">
+Rays
+</option>
+
+<option value="Tavasci">
+Tavasci
+</option>
+
+<option value="Zanetti">
+Zanetti
+</option>
+
+<option value="Menso">
+Menso
+</option>
+
+<option value="Norris">
+Norris
+</option>
+
+<option value="Jacks">
+Jacks
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label for="harvest">
+Harvest stage / colour
+</label>
+
+<input
+id="harvest"
+value="1st Pick - Yellow">
+
+</div>
+
+
+<div>
+
+<label for="quality">
+Fruit quality
+</label>
+
+<select id="quality">
+
+<option>
+Excellent
+</option>
+
+<option>
+Good
+</option>
+
+<option>
+Average
+</option>
+
+<option>
+Poor
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label for="supply">
+Supply outlook
+</label>
+
+<select id="supply">
+
+<option>
+No glut expected
+</option>
+
+<option>
+Steady supply
+</option>
+
+<option>
+Increasing supply
+</option>
+
+<option>
+Decreasing supply
+</option>
+
+<option>
+Possible glut
+</option>
+
+</select>
+
+</div>
+
+
+<div class="full">
+
+<label>
+Blocks / irrigation outlets — select one or more
+</label>
+
+<div
+id="blocks"
+class="blocks">
+
+<span style="color:#626A65">
+Select a farm first.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="full">
+
+<label for="takeaway">
+Key takeaway
+</label>
+
+<textarea id="takeaway">Excellent fruit quality remains consistent with previous weeks. Current conditions do not generally indicate a significant glut of fruit from the area next week.</textarea>
+
+</div>
+
+
+<div class="full">
+
+<label for="observation">
+Field observation
+</label>
+
+<textarea id="observation">Excellent quality fruit, similar to previous weeks.</textarea>
+
+</div>
+
+
+<div class="full">
+
+<label for="outlook">
+Production outlook
+</label>
+
+<textarea id="outlook">Warmer conditions are expected early in the week, followed by slightly cooler conditions. Based on current conditions, this would not generally point to any significant glut of fruit being harvested from the area next week.</textarea>
+
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<button
+class="primary"
+id="generateBtn">
+
+Generate report
+
+</button>
+
+
+<button
+class="secondary"
+id="printBtn">
+
+Print / Save as PDF
+
+</button>
+
+</div>
+
+
+<details>
+
+<summary>
+Edit Farms & Blocks
+</summary>
+
+<div class="notice">
+Changes made here are saved on this device/browser only.
+</div>
+
+<div id="editor"></div>
+
+<div class="buttons">
+
+<button
+class="secondary"
+id="addFarmBtn">
+
+Add farm
+
+</button>
+
+
+<button
+class="secondary"
+id="resetBtn">
+
+Reset to original farm list
+
+</button>
+
+</div>
+
+</details>
+
+
+<section id="reportView">
+
+<div class="report-head">
+
+<h2>
+FIELD CONDITION REPORT
+</h2>
+
+<div
+class="report-sub"
+id="rSub">
+</div>
+
+</div>
+
+
+<div class="summary">
+
+<div>
+
+FRUIT QUALITY
+
+<strong id="rQuality"></strong>
+
+</div>
+
+
+<div>
+
+HARVEST STAGE
+
+<strong id="rHarvest"></strong>
+
+</div>
+
+
+<div>
+
+SUPPLY OUTLOOK
+
+<strong id="rSupply"></strong>
+
+</div>
+
+</div>
+
+
+<div
+class="takeaway"
+id="rTakeaway">
+</div>
+
+
+<h3>
+FARM / BLOCKS
+</h3>
+
+<p id="rFarmBlocks"></p>
+
+
+<h3>
+FIELD OBSERVATION
+</h3>
+
+<p id="rObservation"></p>
+
+
+<h3>
+PRODUCTION OUTLOOK
+</h3>
+
+<p id="rOutlook"></p>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+
+<script>
+
+(function(){
+
+var DEFAULT_FARMS = {
+
+"Strathdee":[
+"1","2","3","4","5",
+"6","7","8","9","10",
+"10B",
+"Strathdee School"
+],
+
+"Rays":[
+"1","2","3","4",
+"5","6","7","8"
+],
+
+"Tavasci":[
+"1","2","3","4","5",
+"6","7","8","9","10"
+],
+
+"Zanetti":[
+"1","2","3",
+"4","5","6"
+],
+
+"Menso":[
+"1","2","3","4",
+"5","6","7"
+],
+
+"Norris":[
+"1","2","3","4",
+"Norris School 1",
+"Norris School 2",
+"Norris School 3",
+"Norris Gully 1"
+],
+
+"Jacks":[
+"1","2","3","4","5",
+"6","7","8","9"
+]
+
+};
+
+
+var farms = loadFarms();
+
+
+function clone(obj){
+
+return JSON.parse(
+JSON.stringify(obj)
+);
+
+}
+
+
+function loadFarms(){
+
+try{
+
+var saved =
+localStorage.getItem(
+"fieldReportFarms"
+);
+
+if(saved){
+
+return JSON.parse(saved);
+
+}
+
+}
+catch(e){}
+
+return clone(DEFAULT_FARMS);
+
+}
+
+
+function saveFarms(){
+
+try{
+
+localStorage.setItem(
+"fieldReportFarms",
+JSON.stringify(farms)
+);
+
+}
+catch(e){}
+
+}
+
+
+function syncFarmSelect(){
+
+var sel =
+document.getElementById("farm");
+
+var current =
+sel.value;
+
+sel.innerHTML =
+'<option value="">Select a farm…</option>';
+
+
+Object.keys(farms).forEach(
+
+function(name){
+
+var o =
+document.createElement("option");
+
+o.value = name;
+
+o.textContent = name;
+
+sel.appendChild(o);
+
+}
+
+);
+
+
+if(farms[current]){
+
+sel.value = current;
+
+}
+
+
+renderBlocks();
+
+}
+
+
+function renderBlocks(){
+
+var farm =
+document.getElementById("farm").value;
+
+var box =
+document.getElementById("blocks");
+
+box.innerHTML = "";
+
+
+if(!farm || !farms[farm]){
+
+box.innerHTML =
+'<span style="color:#626A65">Select a farm first.</span>';
+
+return;
+
+}
+
+
+farms[farm].forEach(
+
+function(block){
+
+var lab =
+document.createElement("label");
+
+lab.className =
+"block-option";
+
+
+var cb =
+document.createElement("input");
+
+cb.type =
+"checkbox";
+
+cb.value =
+block;
+
+cb.name =
+"block";
+
+
+var span =
+document.createElement("span");
+
+span.textContent =
+block;
+
+
+lab.appendChild(cb);
+
+lab.appendChild(span);
+
+box.appendChild(lab);
+
+}
+
+);
+
+}
+
+
+function renderEditor(){
+
+var ed =
+document.getElementById("editor");
+
+ed.innerHTML = "";
+
+
+Object.keys(farms).forEach(
+
+function(name){
+
+var row =
+document.createElement("div");
+
+row.className =
+"editor-row";
+
+
+var f1 =
+document.createElement("div");
+
+
+var l1 =
+document.createElement("label");
+
+l1.textContent =
+"Farm name";
+
+
+var nameInput =
+document.createElement("input");
+
+nameInput.value =
+name;
+
+
+f1.appendChild(l1);
+
+f1.appendChild(nameInput);
+
+
+var f2 =
+document.createElement("div");
+
+
+var l2 =
+document.createElement("label");
+
+l2.textContent =
+"Blocks / outlets (comma separated)";
+
+
+var blocksInput =
+document.createElement("input");
+
+blocksInput.value =
+farms[name].join(", ");
+
+
+f2.appendChild(l2);
+
+f2.appendChild(blocksInput);
+
+
+var del =
+document.createElement("button");
+
+del.className =
+"danger";
+
+del.textContent =
+"Remove";
+
+
+del.addEventListener(
+
+"click",
+
+function(){
+
+delete farms[name];
+
+saveFarms();
+
+syncFarmSelect();
+
+renderEditor();
+
+}
+
+);
+
+
+nameInput.addEventListener(
+
+"change",
+
+function(){
+
+var newName =
+nameInput.value.trim();
+
+
+if(
+!newName ||
+newName === name
+){
+
+return;
+
+}
+
+
+farms[newName] =
+farms[name];
+
+delete farms[name];
+
+saveFarms();
+
+syncFarmSelect();
+
+renderEditor();
+
+}
+
+);
+
+
+blocksInput.addEventListener(
+
+"change",
+
+function(){
+
+farms[name] =
+blocksInput.value
+.split(",")
+.map(function(x){
+
+return x.trim();
+
+})
+.filter(Boolean);
+
+
+saveFarms();
+
+renderBlocks();
+
+}
+
+);
+
+
+row.appendChild(f1);
+
+row.appendChild(f2);
+
+row.appendChild(del);
+
+ed.appendChild(row);
+
+}
+
+);
+
+}
+
+
+function selectedBlocks(){
+
+return Array.prototype
+.slice.call(
+
+document.querySelectorAll(
+'input[name="block"]:checked'
+)
+
+)
+.map(
+
+function(x){
+
+return x.value;
+
+}
+
+);
+
+}
+
+
+function fmtDate(v){
+
+if(!v){
+
+return "";
+
+}
+
+
+var d =
+new Date(
+v + "T12:00:00"
+);
+
+
+return d.toLocaleDateString(
+
+"en-AU",
+
+{
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+
+);
+
+}
+
+
+function generate(){
+
+var farm =
+document.getElementById("farm").value
+||
+"Farm not selected";
+
+
+var blocks =
+selectedBlocks();
+
+
+document.getElementById(
+"rSub"
+).textContent =
+
+fmtDate(
+document.getElementById(
+"reportDate"
+).value
+)
+
++ " | " +
+
+farm;
+
+
+document.getElementById(
+"rQuality"
+).textContent =
+
+document.getElementById(
+"quality"
+).value;
+
+
+document.getElementById(
+"rHarvest"
+).textContent =
+
+document.getElementById(
+"harvest"
+).value;
+
+
+document.getElementById(
+"rSupply"
+).textContent =
+
+document.getElementById(
+"supply"
+).value;
+
+
+document.getElementById(
+"rTakeaway"
+).textContent =
+
+"KEY TAKEAWAY: "
+
++
+
+document.getElementById(
+"takeaway"
+).value;
+
+
+document.getElementById(
+"rFarmBlocks"
+).textContent =
+
+farm
+
++
+
+(
+blocks.length
+?
+" — " + blocks.join(", ")
+:
+" — No blocks selected"
+);
+
+
+document.getElementById(
+"rObservation"
+).textContent =
+
+document.getElementById(
+"observation"
+).value;
+
+
+document.getElementById(
+"rOutlook"
+).textContent =
+
+document.getElementById(
+"outlook"
+).value;
+
+
+document.getElementById(
+"reportView"
+).style.display =
+"block";
+
+
+document.getElementById(
+"reportView"
+).scrollIntoView(
+{
+behavior:"smooth"
+}
+);
+
+}
+
+
+document.getElementById(
+"farm"
+).addEventListener(
+"change",
+renderBlocks
+);
+
+
+document.getElementById(
+"generateBtn"
+).addEventListener(
+"click",
+generate
+);
+
+
+document.getElementById(
+"printBtn"
+).addEventListener(
+
+"click",
+
+function(){
+
+generate();
+
+setTimeout(
+
+function(){
+
+window.print();
+
+},
+
+150
+
+);
+
+}
+
+);
+
+
+document.getElementById(
+"addFarmBtn"
+).addEventListener(
+
+"click",
+
+function(){
+
+var base =
+"New Farm";
+
+var name =
+base;
+
+var n =
+2;
+
+
+while(farms[name]){
+
+name =
+base + " " + n;
+
+n++;
+
+}
+
+
+farms[name] =
+["1"];
+
+
+saveFarms();
+
+syncFarmSelect();
+
+renderEditor();
+
+}
+
+);
+
+
+document.getElementById(
+"resetBtn"
+).addEventListener(
+
+"click",
+
+function(){
+
+if(
+
+confirm(
+"Reset farms and blocks to the original list?"
+)
+
+){
+
+farms =
+clone(DEFAULT_FARMS);
+
+saveFarms();
+
+syncFarmSelect();
+
+renderEditor();
+
+}
+
+}
+
+);
+
+
+var today =
+new Date();
+
+
+var local =
+new Date(
+
+today.getTime()
+
+-
+
+today.getTimezoneOffset()
+*
+60000
+
+)
+.toISOString()
+.slice(0,10);
+
+
+document.getElementById(
+"reportDate"
+).value =
+local;
+
+
+syncFarmSelect();
+
+renderEditor();
+
+})();
+
+</script>
+
+</body>
+</html>
