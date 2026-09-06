@@ -106,7 +106,23 @@ compress:true
 pagebreak:{mode:["css","legacy"]}
 };
 
-await html2pdf().set(options).from(report).save();
+var worker=html2pdf().set(options).from(report).toPdf();
+
+var pdf=await worker.get("pdf");
+var blob=pdf.output("blob");
+
+var file=new File([blob],options.filename,{type:"application/pdf"});
+
+if(navigator.canShare&&navigator.canShare({files:[file]})){
+await navigator.share({
+files:[file],
+title:"Field Condition Report"
+});
+}else{
+var url=URL.createObjectURL(blob);
+window.open(url,"_blank");
+setTimeout(function(){URL.revokeObjectURL(url);},60000);
+}
 
 }catch(e){
 console.error(e);
